@@ -5,7 +5,7 @@ import SearchBar from './components/search-bar/SearchBar.vue'
 
 <template>
   <header>
-    <SearchBar />
+      <SearchBar />
   </header>
   <main>
     <TimeList/>

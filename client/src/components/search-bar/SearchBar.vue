@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import ChevronIcon from "../icons/ChevronIcon.vue";
-import axios from "axios";
+import { useTimeZoneStore } from "../../store/TimeZone";
+
+const store = useTimeZoneStore();
+store.fetchTimeZoneList();
 
 const searchTerm = ref<string>("");
-const timeZoneList = ref<string[]>([]);
 const selected = ref<string>("");
 
-axios
-  .get(import.meta.env.VITE_WORLD_TIME_BASE_URL)
-  .then((res) => (timeZoneList.value = res.data));
+const timeZoneList = computed(() => store.getTimeZoneList);
 
 const filteredItems = computed<string[]>(() =>
   timeZoneList.value.filter((item) =>
@@ -20,13 +20,11 @@ const filteredItems = computed<string[]>(() =>
 const selectItem = (item: string) => {
   searchTerm.value = item;
   selected.value = item;
+  store.addTimeZoneSelected(selected.value);
 };
 
 const showDropdown = computed(
-  () =>
-    filteredItems.value.length &&
-    selected.value !== searchTerm.value &&
-    searchTerm.value !== ""
+  () => selected.value !== searchTerm.value && searchTerm.value !== ""
 );
 </script>
 
@@ -46,13 +44,15 @@ const showDropdown = computed(
         />
       </div>
     </div>
-      <div
+    <div
       v-if="showDropdown"
-        class="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg  py-2"
-        key="list"
-      >
-      <p class="px-4 font-bold bg-white w-full">Showing {{ filteredItems.length }} of {{ timeZoneList.length }}</p>
-      <ul class=" overflow-y-scroll max-h-40">
+      class="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg py-2"
+      key="list"
+    >
+      <p class="px-4 font-bold bg-white w-full">
+        Showing {{ filteredItems.length }} of {{ timeZoneList.length }}
+      </p>
+      <ul class="overflow-y-scroll max-h-40">
         <li
           v-for="item in filteredItems"
           :key="item"
@@ -66,5 +66,4 @@ const showDropdown = computed(
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
