@@ -33,7 +33,6 @@ const showDropdown = computed(
     <div class="flex border-2 border-black h-10 p-2 rounded-xl w-full">
       <input
         v-model="searchTerm"
-        @input="filterItems"
         placeholder="Enter the time zone"
         class="w-full focus-visible:outline-none font-normal"
       />

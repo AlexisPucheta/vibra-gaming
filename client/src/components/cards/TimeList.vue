@@ -13,7 +13,7 @@ const timeZonesSelected = computed(() => store.getTimeZonesSelected);
     <div class="grid grid-cols-1 lg:grid-cols-3">
       <div v-for="option in timeZonesSelected">
         <TimeCard
-          :timeZone="option.timeZone"
+          :timeZone="option.timeZone || ''"
           :date="option.date"
           :time="option.time"
         />
