@@ -3,7 +3,7 @@ import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  base: 'alexispucheta',
+  base: '/vibra-gaming/client',
   plugins: [vue()],
   server: {
     host: true
