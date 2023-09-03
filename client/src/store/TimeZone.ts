@@ -1,23 +1,10 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import convertTime from "../utils/convertTime";
-
-interface ITimeZoneSelected {
-  time: string;
-  timeZone?: string;
-  date: string;
-}
-
-interface IModalWarning {
-  open: boolean,
-  timeZone: string
-}
-interface ITimeZoneState {
-  timeZoneList: string[];
-  searchTerm: string;
-  timeZonesSelected: ITimeZoneSelected[];
-  modalWarning: IModalWarning;
-}
+import {
+  ITimeZoneSelected,
+  ITimeZoneState,
+} from "../types/interfaces";
 
 export const useTimeZoneStore = defineStore("timeZone", {
   state: (): ITimeZoneState => ({
@@ -26,8 +13,8 @@ export const useTimeZoneStore = defineStore("timeZone", {
     timeZonesSelected: [],
     modalWarning: {
       open: false,
-      timeZone: ''
-    }
+      timeZone: "",
+    },
   }),
   getters: {
     getTimeZoneList(state) {
@@ -40,7 +27,7 @@ export const useTimeZoneStore = defineStore("timeZone", {
   actions: {
     async fetchTimeZoneList() {
       try {
-        const data = await axios.get(`http://worldtimeapi.org/api/timezone`);
+        const data = await axios.get(`http://localhost:3000/timezones`);
         this.timeZoneList = data.data;
       } catch (error) {
         console.log(error);
@@ -52,11 +39,10 @@ export const useTimeZoneStore = defineStore("timeZone", {
       )
         return;
       try {
-        const data = await axios.get(
-          `http://worldtimeapi.org/api/timezone/${payload}`
-        );
-        const newValue: ITimeZoneSelected = convertTime(data.data.datetime);
-        newValue.timeZone = data.data.timezone;
+        const path = payload.replace(/\//g, "+");
+        const data = await axios.get(`http://localhost:3000/timezones/${path}`);
+        const newValue: ITimeZoneSelected = convertTime(data.data.localTime);
+        newValue.timeZone = data.data.name;
         this.timeZonesSelected.push(newValue);
       } catch (error) {
         console.log(error);
@@ -69,11 +55,10 @@ export const useTimeZoneStore = defineStore("timeZone", {
     },
     async refresh(payload: string) {
       try {
-        const data = await axios.get(
-          `http://worldtimeapi.org/api/timezone/${payload}`
-        );
-        const newValue: ITimeZoneSelected = convertTime(data.data.datetime);
-        newValue.timeZone = data.data.timezone;
+        const path = payload.replace(/\//g, "+");
+        const data = await axios.get(`http://localhost:3000/timezones/${path}`);
+        const newValue: ITimeZoneSelected = convertTime(data.data.localTime);
+        newValue.timeZone = data.data.name;
         const index = this.timeZonesSelected.findIndex(
           (ele) => ele.timeZone === payload
         );
@@ -85,14 +70,14 @@ export const useTimeZoneStore = defineStore("timeZone", {
     openModal(payload: string) {
       this.modalWarning = {
         open: true,
-        timeZone: payload
-      }
+        timeZone: payload,
+      };
     },
     closeModal() {
       this.modalWarning = {
         open: false,
-        timeZone: ''
-      }
-    }
+        timeZone: "",
+      };
+    },
   },
 });
