@@ -5,7 +5,7 @@ import SearchBar from "./components/search-bar/SearchBar.vue";
 </script>
 
 <template>
-  <header>
+  <header class="mb-20">
     <h1 class="font-bold text-xl lg:text-3xl pb-4">Vibra Gaming Challenge</h1>
     <SearchBar />
   </header>

@@ -16,6 +16,12 @@ const { refresh, openModal  } = useTimeZoneStore();
 const handleDelete = () => {
   openModal(timeZone.value)
 };
+
+const handleRefresh = () => {
+  refresh(timeZone.value)
+}
+
+setInterval(handleRefresh, 5000)
 </script>
 
 <template>
@@ -37,6 +43,5 @@ const handleDelete = () => {
       <p class="text-2xl">{{ date }}</p>
       <p class="text-2xl">{{ time }}</p>
     </div>
-    <button @click="refresh(timeZone)">refresh</button>
   </div>
 </template>

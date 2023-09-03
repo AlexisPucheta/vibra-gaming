@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import ChevronIcon from "../icons/ChevronIcon.vue";
-import { useTimeZoneStore } from "../../store/TimeZone";
+import { useTimeZoneStore, ITimeZone } from "../../store/TimeZone";
 
 const store = useTimeZoneStore();
 store.fetchTimeZoneList();
@@ -11,15 +11,15 @@ const selected = ref<string>("");
 
 const timeZoneList = computed(() => store.getTimeZoneList);
 
-const filteredItems = computed<string[]>(() =>
+const filteredItems = computed<ITimeZone[]>(() =>
   timeZoneList.value.filter((item) =>
-    item.toLowerCase().includes(searchTerm.value.toLowerCase())
+    item.name.toLowerCase().includes(searchTerm.value.toLowerCase())
   )
 );
 
-const selectItem = (item: string) => {
-  searchTerm.value = item;
-  selected.value = item;
+const selectItem = (item:ITimeZone) => {
+  searchTerm.value = item.name;
+  selected.value = item.name;
   store.addTimeZoneSelected(selected.value);
 };
 
@@ -54,11 +54,11 @@ const showDropdown = computed(
       <ul class="overflow-y-scroll max-h-40">
         <li
           v-for="item in filteredItems"
-          :key="item"
+          :key="item.name"
           @click="selectItem(item)"
           class="px-4 pb-2 cursor-pointer hover:bg-gray-100"
         >
-          {{ item }}
+          {{ item.name }}
         </li>
       </ul>
     </div>
