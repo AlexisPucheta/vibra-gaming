@@ -11,17 +11,17 @@ const props = defineProps<{
 
 const { timeZone, date, time } = toRefs(props);
 
-const { refresh, openModal  } = useTimeZoneStore();
+const { refresh, openModal } = useTimeZoneStore();
 
 const handleDelete = () => {
-  openModal(timeZone.value)
+  openModal(timeZone.value);
 };
 
 const handleRefresh = () => {
-  refresh(timeZone.value)
-}
+  refresh(timeZone.value);
+};
 
-setInterval(handleRefresh, 5000)
+setInterval(handleRefresh, 5000);
 </script>
 
 <template>

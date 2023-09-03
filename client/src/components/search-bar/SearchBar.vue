@@ -50,24 +50,24 @@ const showDropdown = computed(
       class="absolute z-10 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg py-2"
       key="list"
     >
-    <div v-if="!filteredItems.length" class="flex justify-center">
-      <LoadingIndicator />
-    </div>
-    <div v-else>
-      <p class="px-4 font-bold bg-white w-full">
-        Showing {{ filteredItems.length }} of {{ timeZoneList.length }}
-      </p>
-      <ul class="overflow-y-scroll max-h-40">
-        <li
-          v-for="item in filteredItems"
-          :key="item.name"
-          @click="selectItem(item)"
-          class="px-4 pb-2 cursor-pointer hover:bg-gray-100"
-        >
-          {{ item.name }}
-        </li>
-      </ul>
-    </div>
+      <div v-if="!filteredItems.length" class="flex justify-center">
+        <LoadingIndicator />
+      </div>
+      <div v-else>
+        <p class="px-4 font-bold bg-white w-full">
+          Showing {{ filteredItems.length }} of {{ timeZoneList.length }}
+        </p>
+        <ul class="overflow-y-scroll max-h-40">
+          <li
+            v-for="item in filteredItems"
+            :key="item.name"
+            @click="selectItem(item)"
+            class="px-4 pb-2 cursor-pointer hover:bg-gray-100"
+          >
+            {{ item.name }}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>

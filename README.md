@@ -12,7 +12,7 @@ This repository is a monorepo where the front-end and back-end coexist.
 
 ## Installation
 
-Since it is a monorepo, the node_modules will be installed in the root directory for both the client and server projects.
+Since it is a monorepo, the node_modules directory will be installed in the root directory for common dependencies, while the client and server projects will have their specific ones.
 
 ```bash
   npm install

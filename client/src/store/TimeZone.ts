@@ -1,10 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 import convertTime from "../utils/convertTime";
-import {
-  ITimeZoneSelected,
-  ITimeZoneState,
-} from "../types/interfaces";
+import { ITimeZoneSelected, ITimeZoneState } from "../types/interfaces";
 
 export const useTimeZoneStore = defineStore("timeZone", {
   state: (): ITimeZoneState => ({
@@ -27,7 +24,7 @@ export const useTimeZoneStore = defineStore("timeZone", {
   actions: {
     async fetchTimeZoneList() {
       try {
-        const data = await axios.get(`http://localhost:3000/timezones`);
+        const data = await axios.get(import.meta.env.VITE_LOCAL_SERVER);
         this.timeZoneList = data.data;
       } catch (error) {
         console.log(error);
@@ -40,7 +37,7 @@ export const useTimeZoneStore = defineStore("timeZone", {
         return;
       try {
         const path = payload.replace(/\//g, "+");
-        const data = await axios.get(`http://localhost:3000/timezones/${path}`);
+        const data = await axios.get(`${import.meta.env.VITE_LOCAL_SERVER}${path}`);
         const newValue: ITimeZoneSelected = convertTime(data.data.localTime);
         newValue.timeZone = data.data.name;
         this.timeZonesSelected.push(newValue);
@@ -56,7 +53,7 @@ export const useTimeZoneStore = defineStore("timeZone", {
     async refresh(payload: string) {
       try {
         const path = payload.replace(/\//g, "+");
-        const data = await axios.get(`http://localhost:3000/timezones/${path}`);
+        const data = await axios.get(`${import.meta.env.VITE_LOCAL_SERVER}${path}`);
         const newValue: ITimeZoneSelected = convertTime(data.data.localTime);
         newValue.timeZone = data.data.name;
         const index = this.timeZonesSelected.findIndex(
