@@ -52,14 +52,22 @@ http://localhost:3000/
 
 This documentation provides an overview of the approach used to solve the coding challenge.
 
+# World Clock Application
+
+This application was developed to address the World Clock exercise challenge. The solution is divided into two main components: the client and the server.
+
 ### Project Structure
 
 Given the requirement to develop both a server and a client, a monorepo structure was chosen for its practicality in integrating and reviewing their functionality. While the dependencies and devDependencies in this example were not extensive, utilizing a monorepo allows for the sharing of dependencies between repositories, which is particularly advantageous in larger projects.
 
 ### Server
 
-This server, built using the Express framework, is designed to consume data from the World Time API and provide users with information about corresponding timezones and local times. It offers a simple and efficient way to access accurate time-related data for various regions around the world.
+The server is built using Express and contains controllers and routes for various supported methods. Its primary function is to provide the client with time zone and local time data obtained from the [World Time API](https://worldtimeapi.org/api).
 
-### Front-End
+### Client
 
-This frontend application, developed using Vite and Vue 3, is designed to render cards displaying time zone information along with the corresponding local time. It provides an intuitive and user-friendly interface for accessing and visualizing accurate time-related data for different regions around the world.
+On the client side, Vite was used as a build tool, and the application is developed with Vue 3 and TypeScript. Within the client, you'll find a Pinia-based store, reusable components, interfaces, and utility functions.
+
+The user interface features a search bar with autocomplete for various time zones provided by the server. When a time zone is selected, it is displayed as a card in the user's dashboard. Users can add multiple time zones and remove them after confirming their action through a warning modal.
+
+The application automatically updates the time every 5 seconds by making a call to the server for the specific time zone.
